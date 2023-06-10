@@ -1,0 +1,154 @@
+Classes que serão Implementadas:
+Bebida
+Usuario
+Municipio
+Estado
+Marca
+TipoBebida
+
+Codigo Uml:
+@startuml Bebida-eCommerce
+
+    class Bebida {
+        - descricao: String
+        - quantidadeLiquido: int
+    }
+    
+    enum TipoBebida{
+    + alcoolica: int
+    + semAlcool: int
+    }
+
+    class Marca {
+
+        - id: Long
+        - nome: String
+        - cnpj: String
+    }
+
+    class Usuario {
+
+        - id: Long
+        - nome: String
+        - email: String
+        - senha: String
+        - cpf: String
+    }
+
+    class Telefone {
+
+        - id: Long
+        - codigoArea: String
+        - numero: String
+    }
+
+    class Compra {
+
+        - id: Long
+        - dataCompra: Date
+        - totalCompra: Double
+    }
+
+    class ItemCompra {
+
+        - id: Long
+        - quantidade: Integer
+        - preco: Double
+    }
+
+    class Endereco {
+
+        - id: Long
+        - principal: Boolean
+        - logradouro: String
+        - bairro: String
+        - numero: String
+        - complemento: String
+        - cep: String
+    }
+    
+    class FormaPagamento {
+
+        - id: Long
+        - confirmacaoPagamento: Boolean
+        - dataConfirmacaoPagamento: Date
+    }
+    
+    class Pix {
+
+        - chave: String
+        - valor: Double
+    }
+
+    class Cartao {
+
+        - valor: Double
+        - numeroCartao: String
+        - nomeCartao: String
+        - validadeCartao: Date
+        - codigoSeguranca: String
+        - cpfTitular: String
+    }
+    
+    class Produto {
+      -id: Long
+      -nome: String
+      -preco: float
+      -estoque: int
+    }
+
+    enum BandeiraCartao {
+
+        + VISA: int
+        + AMERICAN_EXPRESS: int
+        + HIPERCARD: int
+        + DINERS: int
+        + MASTERCARD: int
+        + ELO: int
+    }
+    
+    class Municipio {
+      - id: Long
+      - nome: String
+    }
+    
+    class Estado {
+      - id: Long
+      - nome: String
+    }
+    
+    class BoletoBancario {
+
+        - codigoBarra: String
+        - dataGeracaoBoleto: Date
+        - valor: Double
+        - dataVencimento: Date
+    }
+
+    Bebida "*" --> "1" Marca
+    Bebida "*" --> "1" TipoBebida
+    Bebida -up-|> Produto
+    
+    BoletoBancario -up-|> FormaPagamento
+
+    Pix -up-|> FormaPagamento
+
+    Cartao -up-|> FormaPagamento
+    Cartao "*" --> "1" BandeiraCartao
+    
+    Compra "1" *--> "1" FormaPagamento
+
+    Usuario "" --> "" Produto: listaDesejo
+    Usuario "1" *--> "1" Telefone: telefonePrincipal
+    Usuario "1" --> "*" Telefone: telefoneOpcional
+    Usuario "1" *--> "1" Endereco: endereçoPrincipal
+
+    Compra "*" --> "1" Usuario
+    Compra "1" --> "" ItemCompra
+
+    ItemCompra "1" --> "1" Produto
+    Endereco "*" --> "1" Municipio
+    Municipio "*" --> "1" Estado
+    
+
+@enduml
